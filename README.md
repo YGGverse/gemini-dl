@@ -65,8 +65,8 @@ src/gemini-dl.php --source gemini://.. --target /path/to/download
 ## Optional
 
     -c, --crawl      - no value, crawl document links (entire capsule download), disabled by default
-    -d, --delay      - integer, pause between requests in seconds, 1 by default
-    -i, --index      - string, index filename for directory listing, index.gmi by default
+    -d, --delay      - integer, pause between requests (seconds), 1 by default
+    -i, --index      - string, index filename of directory listing, index.gmi by default
     -h, --help       - no value, show available commands
     -k, --keep       - no value, keep original links (--crawl mode only), disabled by default
     -m, --match      - string, collect links match regex rule, /.*/ by default
