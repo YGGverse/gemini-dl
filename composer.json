@@ -1,0 +1,24 @@
+{
+    "name": "yggverse/gemini-dl",
+    "description": "CLI downloader for Gemini protocol",
+    "keywords": [ "yggverse", "gemini-dl", "gemini", "gemini-protocol", "batch", "downloader", "cli" ],
+    "homepage": "https://github.com/yggverse/gemini-dl",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Yggverse\\GeminiDl\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "YGGverse"
+        }
+    ],
+    "require": {
+        "codedungeon/php-cli-colors": "^1.12",
+        "yggverse/gemini": "dev-main",
+        "yggverse/gemtext": "dev-main",
+        "yggverse/net": "^1.7"
+    }
+}
