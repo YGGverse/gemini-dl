@@ -15,9 +15,9 @@ At this moment, project under development, some [features](#features) already im
 
 ## Features
 
-* [x] Grab single URL or entire capsule for offline reading
-* [x] Multiple MIME download support
-* [x] Crawler log for every request
+* [x] Grab single location or entire capsule for mirroring or offline reading
+* [x] Multiple MIME types download support (e.g. inline images and other media)
+* [x] Detailed crawler log for every request
 * [ ] Flexible options
   * [x] Custom delay between requests
   * [x] Custom index filename for directories
@@ -27,10 +27,10 @@ At this moment, project under development, some [features](#features) already im
   * [x] Optional URL replacement to relative URI
   * [x] Recursive crawler
   * [x] Regex URL rules
-  * [x] Unique snap version support or sync by default
+  * [x] Unique snap version or sync local copy (by default)
   * [ ] Configurable redirect levels to follow
   * [ ] Crawl depth levels limit
-  * [ ] Document size limit
+  * [ ] Document size limit to download
   * [ ] Follow external links on crawl
 
 ## Environment
@@ -52,7 +52,7 @@ apt install git composer php-fpm php-mbstring
 src/gemini-dl.php --source gemini://.. --target /path/to/download
 ```
 
-* Alternatively, launch with specified php version `/path/to/php src/gemini-dl.php`
+* alternatively, launch with specified php version `/path/to/php src/gemini-dl.php`
 
 ### Options
 
@@ -80,4 +80,4 @@ src/gemini-dl.php --source gemini://.. --target /path/to/download
     -l, --level      - integer, depth to --crawl, 0 by default
 ```
 
-* Manual: `gemini-dl.php --help`
+* show in CLI: `gemini-dl.php --help`
