@@ -2,7 +2,7 @@
 
 CLI downloader for [Gemini protocol](https://geminiprotocol.net), inspired by `wget` and `yt-dlp` tools
 
-At this moment, project under development, some [features](#features) already implemented and testing (send [feedback](https://github.com/YGGverse/gemini-dl/issues) | [PR](https://github.com/YGGverse/gemini-dl/pull))
+At this moment, project under development, some [features](#features) already implemented and testing ([feedback](https://github.com/YGGverse/gemini-dl/issues) | [PR](https://github.com/YGGverse/gemini-dl/pull))
 
 ## Interface
 
