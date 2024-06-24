@@ -334,9 +334,8 @@ class Cli
     private function _summary(): string
     {
         return implode(
-            PHP_EOL,
+            '',
             [
-                PHP_EOL,
                 Message::blue(
                     _('----------------')
                 ),
@@ -384,8 +383,7 @@ class Cli
                             $this->source
                         ) + $this->time
                     )
-                ),
-                PHP_EOL
+                )
             ]
         );
     }
