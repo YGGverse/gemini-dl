@@ -19,6 +19,6 @@
         "codedungeon/php-cli-colors": "^1.12",
         "yggverse/gemini": "dev-main",
         "yggverse/gemtext": "dev-main",
-        "yggverse/net": "^1.7"
+        "yggverse/net": "^1.8"
     }
 }
