@@ -26,7 +26,7 @@ At this moment, project under development, some [features](#features) already im
   * [x] Custom storage location
     * [x] Filesystem
     * [ ] FTP
-  * [x] Optional link replacement for local navigation
+  * [x] Optional links replacement for local navigation
     * [x] Relative (default)
     * [x] Absolute (`--absolute`)
     * [x] Original (`--keep`)
