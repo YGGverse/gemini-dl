@@ -6,6 +6,8 @@ At this moment, project under development, some [features](#features) already im
 
 ## Interface
 
+![gemini-dl](https://github.com/YGGverse/gemini-dl/assets/108541346/a0b00a32-9a38-4dd7-a25c-5cb2be38e059)
+
 ## Components
 
 * [gemini-php](https://github.com/YGGverse/gemini-php) - Client for Gemini protocol
