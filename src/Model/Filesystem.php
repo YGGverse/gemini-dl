@@ -217,7 +217,7 @@ class Filesystem
 
         $segments = [];
 
-        foreach (
+        foreach(
             explode(
                 DIRECTORY_SEPARATOR,
                 $dirname

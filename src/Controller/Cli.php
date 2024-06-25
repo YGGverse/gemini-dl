@@ -250,6 +250,7 @@ class Cli
                             )
                         );
                     }
+
                     // Replace link to local path
                     $link->setAddress(
                         $local
