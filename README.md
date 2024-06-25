@@ -18,7 +18,7 @@ At this moment, project under development, some [features](#features) already im
 ## Features
 
 * [x] Grab single URL or `--crawl` entire capsule
-* [x] Multiple MIME types download support (e.g. inline images and other media)
+* [x] Multiple MIME types download (e.g. inline images and other media)
 * [x] Detailed crawler log for every request + totals
 * [ ] Flexible options
   * [x] Custom `--delay` between requests
