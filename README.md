@@ -41,7 +41,7 @@ apt install git composer php-fpm php-mbstring
 
 ## Install
 
-* `git clone`
+* `git clone https://github.com/YGGverse/gemini-dl.git`
 * `cd gemini-dl`
 * `composer update`
 * `chmod +x src/gemini-dl.php` _(for direct execution only)_
