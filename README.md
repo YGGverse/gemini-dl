@@ -17,23 +17,25 @@ At this moment, project under development, some [features](#features) already im
 
 ## Features
 
-* [x] Grab single location or entire capsule for mirroring or offline reading
+* [x] Grab single URL or `--crawl` entire capsule
 * [x] Multiple MIME types download support (e.g. inline images and other media)
-* [x] Detailed crawler log for every request
+* [x] Detailed crawler logs for every request
 * [ ] Flexible options
-  * [x] Custom delay between requests
-  * [x] Custom index filename for directories
+  * [x] Custom `--delay` between requests
+  * [x] Custom `--index` filename for directories
   * [x] Custom storage location
     * [x] Filesystem
     * [ ] FTP
-  * [x] Optional URL replacement to relative URI
-  * [x] Recursive crawler
-  * [x] Regex URL rules
-  * [x] Unique snap version or sync local copy (by default)
-  * [ ] Configurable redirect levels to follow
-  * [ ] Crawl depth levels limit
+  * [x] Optional link replacement for local navigation
+    * [x] Relative (default)
+    * [x] Absolute (`--absolute`)
+    * [x] Original (`--keep`)
+  * [x] `--match` regex URL rules
+  * [x] `--unique` snap version or sync local copy
+  * [ ] Configurable redirect levels to `--follow`
+  * [ ] Crawl depth `--level` limit
   * [ ] Document size limit to download
-  * [ ] Follow external links on crawl
+  * [ ] Follow `--external` links on crawl
 
 ## Environment
 
