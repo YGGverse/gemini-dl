@@ -15,8 +15,9 @@ try
     // Start application
     $cli = new Cli(
         getopt(
-            'cd:ef:hi:kl:m:rs:t:u',
+            'acd:ef:hi:kl:m:rs:t:u',
             [
+                'absolute:',
                 'crawl:',
                 'delay:',
                 'external',

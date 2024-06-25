@@ -174,4 +174,70 @@ class Filesystem
             $data
         );
     }
+
+    // Helpers
+    public static function getFilenameRelativeToDirname(
+        string $filename,
+        string $dirname
+    ): string
+    {
+        // Validate paths
+        if (empty($filename))
+        {
+            throw new \Exception(
+                'Filename is could not be empty'
+            );
+        }
+
+        if (empty($dirname))
+        {
+            throw new \Exception(
+                'Dirname is could not be empty'
+            );
+        }
+
+        if (str_starts_with($filename, $dirname))
+        {
+            return ltrim(
+                str_replace(
+                    $dirname,
+                    DIRECTORY_SEPARATOR,
+                    $filename
+                ),
+                DIRECTORY_SEPARATOR
+            );
+        }
+
+        $filepath = explode(
+            DIRECTORY_SEPARATOR,
+            dirname(
+                $filename
+            )
+        );
+
+        $segments = [];
+
+        foreach (
+            explode(
+                DIRECTORY_SEPARATOR,
+                $dirname
+            ) as $level => $directory)
+        {
+            if (isset($filepath[$level]) && $filepath[$level] == $directory)
+            {
+                continue;
+            }
+
+            $segments[] = '..';
+        }
+
+        $segments[] = basename(
+            $filename
+        );
+
+        return implode(
+            DIRECTORY_SEPARATOR,
+            $segments
+        );
+    }
 }

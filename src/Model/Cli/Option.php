@@ -6,6 +6,7 @@ namespace Yggverse\GeminiDL\Model\Cli;
 
 class Option
 {
+    public bool   $absolute = false;
     public bool   $crawl    = false;
     public int    $delay    = 1;
     public bool   $external = false;
@@ -32,6 +33,10 @@ class Option
         }
 
         // Define variables
+        $this->absolute = boolval(
+            isset($options['absolute']) || isset($options['a']) || $this->absolute
+        );
+
         $this->crawl = boolval(
             isset($options['crawl']) || isset($options['c']) || $this->crawl
         );

@@ -102,6 +102,12 @@ class Cli
             $this->source[$offset]
         );
 
+        // Build filesystem location
+        $filename = $this->filesystem->getFilenameFromNetAddress(
+            $source,
+            $this->option->index
+        );
+
         // Build request
         $request = new Request(
             $source->get()
@@ -188,7 +194,7 @@ class Cli
             )
         );
 
-        // Set downloader mode
+        // Set data mode
         $raw = ($this->option->raw || !str_contains((string) $response->getMeta(), 'text/gemini'));
 
         // Parse gemtext
@@ -228,12 +234,25 @@ class Cli
                 // Address --keep not requested
                 if (!$this->option->keep)
                 {
+                    // Generate absolute local file name
+                    $local = $this->filesystem->getFilenameFromNetAddress(
+                        $address,
+                        $this->option->index,
+                    );
+
+                    // Absolute option skipped, make local path relative
+                    if (!$this->option->absolute)
+                    {
+                        $local = Filesystem::getFilenameRelativeToDirname(
+                            $local,
+                            dirname(
+                                $filename
+                            )
+                        );
+                    }
                     // Replace link to local path
                     $link->setAddress(
-                        $this->filesystem->getFilenameFromNetAddress(
-                            $address,
-                            $this->option->index,
-                        )
+                        $local
                     );
                 }
 
@@ -244,22 +263,10 @@ class Cli
             }
         }
 
-        // Build document filesystem location
-        $filename = $this->filesystem->getFilenameFromNetAddress(
-            $source,
-            $this->option->index
-        );
-
         // Save document to file
-        $result = $this->filesystem->save(
-            $filename,
-            $raw || empty($document) ? $response->getBody()
-                                     : $document->toString()
-        );
-
-        // Debug FS
-        if ($result)
-        {
+        if ($this->filesystem->save($filename, $raw || empty($document) ? $response->getBody()
+                                                                        : $document->toString())
+        ) {
             print(
                 Message::green(
                     _("\tsave: ") . $filename
