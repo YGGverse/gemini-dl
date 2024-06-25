@@ -30,8 +30,8 @@ At this moment, project under development, some [features](#features) already im
     * [x] Relative (default)
     * [x] Absolute (`--absolute`)
     * [x] Original (`--keep`)
-  * [x] `--match` regex URL rules
-  * [x] `--unique` snap version or sync local copy
+  * [x] `--match` regex URL
+  * [x] `--unique` snap version or sync with existing copy
   * [ ] Configurable redirect levels to `--follow`
   * [ ] Crawl depth `--level` limit
   * [ ] Document size limit to download
