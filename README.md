@@ -57,27 +57,27 @@ src/gemini-dl.php --source gemini://.. --target /path/to/download
 ### Options
 
 ``` bash
-## Required
+# Required
 
-  -s, --source   - string, gemini protocol address
-  -t, --target   - string, absolute path to destination folder
+-s, --source   - string, gemini protocol address
+-t, --target   - string, absolute path to destination folder
 
-## Optional
+# Optional
 
-  -c, --crawl    - no value, crawl document links (entire capsule download), disabled by default
-  -d, --delay    - integer, pause between requests (seconds), 1 by default
-  -i, --index    - string, index filename of directory listing, index.gmi by default
-  -h, --help     - no value, show available commands
-  -k, --keep     - no value, keep original links (--crawl mode only), disabled by default
-  -m, --match    - string, collect links match regex rule, /.*/ by default
-  -r, --raw      - no value, include meta headers (--keep option ignored), disabled by default
-  -u, --unique   - no value, append snap version as folder timestamp, disabled by default
+-c, --crawl    - no value, crawl document links (entire capsule download), disabled by default
+-d, --delay    - integer, pause between requests (seconds), 1 by default
+-i, --index    - string, index filename of directory listing, index.gmi by default
+-h, --help     - no value, show available commands
+-k, --keep     - no value, keep original links (--crawl mode only), disabled by default
+-m, --match    - string, collect links match regex rule, /.*/ by default
+-r, --raw      - no value, include meta headers (--keep option ignored), disabled by default
+-u, --unique   - no value, append snap version as folder timestamp, disabled by default
 
-## Experimental (in development)
+# Experimental (in development)
 
-  -e, --external - no value, follow external hosts, disabled by default
-  -f, --follow   - integer, follow redirects on --crawl, 0 by default
-  -l, --level    - integer, depth to --crawl, 0 by default
+-e, --external - no value, follow external hosts, disabled by default
+-f, --follow   - integer, follow redirects on --crawl, 0 by default
+-l, --level    - integer, depth to --crawl, 0 by default
 ```
 
 * show in CLI: `gemini-dl.php --help`
