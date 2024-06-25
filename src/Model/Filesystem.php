@@ -59,11 +59,22 @@ class Filesystem
         }
     }
 
+    /*
+     * Return --target realpath
+     *
+     * Currently not in use.
+     */
     public function getFilepath(): string
     {
         return $this->_filepath;
     }
 
+    /*
+     * Build local filepath from \Yggverse\Net\Address
+     *
+     * Return absolute filename using --target defined
+     * Method doesn't check result location for exist.
+     */
     public function getFilenameFromNetAddress(
         \Yggverse\Net\Address $address,
         ?string $index = null
@@ -122,6 +133,15 @@ class Filesystem
         return $filename;
     }
 
+    /*
+     * Save data string to destination.
+     *
+     * This method also builds recursive directory path
+     * and overwrites existing files (data) on exist.
+     *
+     * $filename must start from --target defined
+     * $data is plain gemtext or binary (media) string
+     */
     public function save(
         string $filename,
         string $data
@@ -130,7 +150,11 @@ class Filesystem
         if (!str_starts_with($filename, $this->_filepath))
         {
             throw new \Exception(
-                _('Target filename out of storage location')
+                sprintf(
+                    _('Filename "%s" out of filesystem root "%s"'),
+                    $filename,
+                    $this->_filepath
+                )
             );
         }
 
@@ -175,69 +199,84 @@ class Filesystem
         );
     }
 
-    // Helpers
-    public static function getFilenameRelativeToDirname(
+    /*
+     * Build relative $filename path to given $dirname
+     *
+     * Method does not and must not check location for exist
+     * $filename and $dirname must contain --target defined.
+     *
+     * This implementation compatible with --external option
+     * resulting path get format: ../domain.com/path/to/file
+     */
+    public function getFilenameRelativeToDirname(
         string $filename,
         string $dirname
     ): string
     {
-        // Validate paths
-        if (empty($filename))
+        // Require absolute $filename
+        if (!str_starts_with($filename, DIRECTORY_SEPARATOR))
         {
             throw new \Exception(
-                'Filename is could not be empty'
+                'Absolute filename required'
             );
         }
 
-        if (empty($dirname))
+        // Require absolute $dirname
+        if (!str_starts_with($dirname, DIRECTORY_SEPARATOR))
         {
             throw new \Exception(
-                'Dirname is could not be empty'
+                'Absolute dirname required'
             );
         }
 
-        if (str_starts_with($filename, $dirname))
+        // Require valid $filename root location
+        if (!str_starts_with($filename, $this->_filepath))
         {
-            return ltrim(
-                str_replace(
+            throw new \Exception(
+                sprintf(
+                    _('Filename "%s" out of filesystem root "%s"'),
+                    $filename,
+                    $this->_filepath
+                )
+            );
+        }
+
+        // Require valid $dirname root location
+        if (!str_starts_with($dirname, $this->_filepath))
+        {
+            throw new \Exception(
+                sprintf(
+                    _('Dirname "%s" out of filesystem root "%s"'),
                     $dirname,
-                    DIRECTORY_SEPARATOR,
-                    $filename
+                    $this->_filepath
+                )
+            );
+        }
+
+        // Build path
+        return str_repeat( // iterate ../ up to the --target location
+            sprintf(
+                '..%s',
+                DIRECTORY_SEPARATOR
+            ),
+            substr_count(
+                ltrim( // strip leading slash from $dirname
+                    str_replace( // strip --target prefix from $dirname
+                        $this->_filepath,
+                        DIRECTORY_SEPARATOR,
+                        $dirname
+                    ),
+                    DIRECTORY_SEPARATOR
                 ),
                 DIRECTORY_SEPARATOR
-            );
-        }
-
-        $filepath = explode(
-            DIRECTORY_SEPARATOR,
-            dirname(
-                $filename
-            )
-        );
-
-        $segments = [];
-
-        foreach(
-            explode(
+            ) + 1
+        ) . ltrim( // strip leading slash from $filename
+            str_replace( // strip --target prefix from $filename
+                $this->_filepath,
                 DIRECTORY_SEPARATOR,
-                $dirname
-            ) as $level => $directory)
-        {
-            if (isset($filepath[$level]) && $filepath[$level] == $directory)
-            {
-                continue;
-            }
-
-            $segments[] = '..';
-        }
-
-        $segments[] = basename(
-            $filename
-        );
-
-        return implode(
-            DIRECTORY_SEPARATOR,
-            $segments
+                $filename
+            ),
+            DIRECTORY_SEPARATOR
         );
     }
 }

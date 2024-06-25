@@ -243,7 +243,7 @@ class Cli
                     // Absolute option skipped, make local path relative
                     if (!$this->option->absolute)
                     {
-                        $local = Filesystem::getFilenameRelativeToDirname(
+                        $local = $this->filesystem->getFilenameRelativeToDirname(
                             $local,
                             dirname(
                                 $filename
