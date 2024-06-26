@@ -17,8 +17,8 @@
     ],
     "require": {
         "codedungeon/php-cli-colors": "^1.12",
-        "yggverse/gemini": "dev-main",
-        "yggverse/gemtext": "dev-main",
-        "yggverse/net": "^1.8"
+        "yggverse/net": "^1.8",
+        "yggverse/gemini": "^1.0",
+        "yggverse/gemtext": "^1.0"
     }
 }
