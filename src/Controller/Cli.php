@@ -16,8 +16,6 @@ use \Yggverse\Net\Address;
 class Cli
 {
     // Init totals
-    public int   $skip = 0;
-    public int   $fail = 0;
     public int   $save = 0;
     public int   $size = 0;
     public float $time = 0;
@@ -202,9 +200,6 @@ class Cli
         // Parse gemtext
         if (!$raw && $this->option->crawl)
         {
-            // Reset skipped links
-            $skip = 0;
-
             // Parse gemtext content
             $document = new Document(
                 $response->getBody()
@@ -226,10 +221,6 @@ class Cli
                 // Check link match common source rules, @TODO --external links
                 if (!$this->_source($address->get()) || $address->getHost() != $source->getHost())
                 {
-                    $skip++;
-
-                    $this->skip += $skip;
-
                     continue;
                 }
 
@@ -286,8 +277,6 @@ class Cli
                     _("\tfail: ") . $filename
                 )
             );
-
-            $this->fail++;
         }
 
         // Crawl mode enabled
@@ -365,18 +354,6 @@ class Cli
                     sprintf(
                         _("\tsave: %d"),
                         $this->save
-                    )
-                ),
-                Message::magenta(
-                    sprintf(
-                        _("\tskip: %d"),
-                        $this->skip
-                    )
-                ),
-                Message::magenta(
-                    sprintf(
-                        _("\tfail: %d"),
-                        $this->fail
                     )
                 ),
                 Message::magenta(
