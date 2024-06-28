@@ -157,6 +157,8 @@ class Cli
                     $offset + 1
                 );
             }
+
+            return; // stop next operations in queue
         }
 
         // Calculate document size
