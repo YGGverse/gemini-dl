@@ -202,7 +202,7 @@ class Cli
                                 _("\tleft: %d/%d total (%d processed)"),
                                 $count - $offset,
                                 $count,
-                                $offset
+                                $offset + 1
                             )
                         )
                     );
@@ -334,6 +334,7 @@ class Cli
             )
         );
 
+        if ($offset)
         {
             $count = count($this->source); // calculate shared value once
 
@@ -343,7 +344,7 @@ class Cli
                         _("\tleft: %d/%d total (%d processed)"),
                         $count - $offset,
                         $count,
-                        $offset
+                        $offset + 1
                     )
                 )
             );
