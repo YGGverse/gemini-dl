@@ -76,5 +76,5 @@ src/gemini-dl.php --source gemini://.. --target /path/to/download
 -m, --match    - string, collect links match regex rule, /.*/ by default
 -r, --raw      - no value, include meta headers (--keep option ignored), disabled by default
 -u, --unique   - no value, append snap version as folder timestamp, disabled by default
-
+```
 * show in CLI: `gemini-dl.php --help`
