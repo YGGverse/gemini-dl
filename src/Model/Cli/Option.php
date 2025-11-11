@@ -9,12 +9,10 @@ class Option
     public bool   $absolute = false;
     public bool   $crawl    = false;
     public int    $delay    = 1;
-    public bool   $external = false;
     public int    $follow   = 5;
     public bool   $help     = false;
     public string $index    = 'index.gmi';
     public bool   $keep     = false;
-    public int    $level    = 0;
     public string $match    = '/.*/';
     public bool   $raw      = false;
     public string $source;
@@ -45,10 +43,6 @@ class Option
             $options['delay'] ?? $options['d'] ?? $this->delay
         );
 
-        $this->external = boolval(
-            isset($options['external']) || isset($options['e']) || $this->external
-        );
-
         $this->follow = intval(
             $options['follow'] ?? $options['f'] ?? $this->follow
         );
@@ -63,10 +57,6 @@ class Option
 
         $this->keep = boolval(
             isset($options['keep']) || isset($options['k']) || $this->keep
-        );
-
-        $this->level = intval(
-            $options['level'] ?? $options['l'] ?? $this->level
         );
 
         $this->match = strval(

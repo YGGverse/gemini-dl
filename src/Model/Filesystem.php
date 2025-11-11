@@ -204,9 +204,6 @@ class Filesystem
      *
      * Method does not and must not check location for exist
      * $filename and $dirname must contain --target defined.
-     *
-     * This implementation compatible with --external option
-     * resulting path get format: ../domain.com/path/to/file
      */
     public function getFilenameRelativeToDirname(
         string $filename,

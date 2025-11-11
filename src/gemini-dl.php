@@ -15,17 +15,15 @@ try
     // Start application
     $cli = new Cli(
         getopt(
-            'acd:ef:hi:kl:m:rs:t:u',
+            'acd:f:hi:k:m:rs:t:u',
             [
                 'absolute:',
                 'crawl:',
                 'delay:',
-                'external',
                 'follow:',
                 'help',
                 'index:',
                 'keep',
-                'level:',
                 'match:',
                 'raw',
                 'source:',
