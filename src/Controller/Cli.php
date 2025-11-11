@@ -186,7 +186,7 @@ class Cli
                 );
 
                 print(
-                    Message::magenta(
+                    Message::yellow(
                         sprintf(
                             _("\ttime: %f -d %f"),
                             $time,
