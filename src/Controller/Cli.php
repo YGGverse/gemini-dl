@@ -181,7 +181,7 @@ class Cli
                 // Crawl next address...
                 if ($this->option->crawl)
                 {
-                    if ($this->redirects <= 5) // @TODO optional (currently protocol spec)
+                    if ($this->redirects <= $this->option->follow)
                     {
                         // Validate redirection target location
                         if (filter_var($response->getMeta(), FILTER_VALIDATE_URL)) // @TODO resolve relative locations
@@ -216,7 +216,8 @@ class Cli
                         print(
                             Message::red(
                                 sprintf(
-                                    _("\tredirection count reached, continue next address in queue"),
+                                    _("\tredirection limit (%d) reached, continue next address in queue"),
+                                    $this->option->follow
                                 )
                             )
                         );

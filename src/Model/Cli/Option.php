@@ -10,7 +10,7 @@ class Option
     public bool   $crawl    = false;
     public int    $delay    = 1;
     public bool   $external = false;
-    public int    $follow   = 0;
+    public int    $follow   = 5;
     public bool   $help     = false;
     public string $index    = 'index.gmi';
     public bool   $keep     = false;
