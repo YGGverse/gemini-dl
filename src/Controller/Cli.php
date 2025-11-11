@@ -66,18 +66,16 @@ class Cli
     }
 
     // Updates address in crawler queue
-    public function setSource(
-        int $offset,
+    public function putSource(
+        int $position,
         string $url
     ): bool
     {
-        // Validate given value and check it is unique in the pool
-        if (isset($this->source[$offset]) && $this->_source($url) && $this->source[$offset] != $url)
-        {
-            $this->source[$offset] = $url;
-
+        if (in_array($url, $this->source))
             return true;
-        }
+
+        if ($this->_source($url))
+            return !array_splice($this->source, $position, 0, [$position => $url]);
 
         return false;
     }
@@ -203,15 +201,8 @@ class Cli
                         // Validate redirection target location
                         if (filter_var($response->getMeta(), FILTER_VALIDATE_URL)) // @TODO resolve relative locations
                         {
-                            // Apply redirection target to the current destination
-                            if ($this->setSource($offset, trim($response->getMeta())))
-                            {
-                                // Rescan current destination using updated location
-                                $this->start(
-                                    $offset
-                                );
-                            }
-                            else
+                            // Insert redirection target to the next destination
+                            if (!$this->putSource($offset + 1, trim($response->getMeta())))
                             {
                                 print(
                                     Message::red(
@@ -220,11 +211,6 @@ class Cli
                                             $response->getMeta()
                                         )
                                     )
-                                );
-
-                                // Continue next location
-                                $this->start(
-                                    $offset + 1
                                 );
                             }
                         }
@@ -238,11 +224,6 @@ class Cli
                                     )
                                 )
                             );
-
-                            // Continue next location
-                            $this->start(
-                                $offset + 1
-                            );
                         }
                     }
                     else
@@ -255,15 +236,15 @@ class Cli
                                 )
                             )
                         );
-
-                        // Continue next location
-                        $this->start(
-                            $offset + 1
-                        );
                     }
+
+                    // Continue next location
+                    $this->start(
+                        $offset + 1
+                    );
                 }
 
-                return; // panic @TODO
+                return; // panic? @TODO
 
             break;
             default: // failure
