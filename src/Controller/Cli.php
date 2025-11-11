@@ -16,6 +16,7 @@ use \Yggverse\Net\Address;
 class Cli
 {
     // Init totals
+    public int   $redirects = 0;
     public int   $save = 0;
     public int   $size = 0;
     public float $time = 0;
@@ -122,41 +123,139 @@ class Cli
         // Calculate response time
         $this->time += $time = microtime(true) - $time; // @TODO to API
 
-        // Check response code success
-        if (20 === $response->getCode())
+        // Route
+        switch ($response->getCode())
         {
-            print(
-                Message::magenta(
-                    sprintf(
-                        _("\tcode: %d"),
-                        $response->getCode()
-                    )
-                )
-            );
-        }
+            case 20: // success
 
-        else
-        {
-            print(
-                Message::red(
-                    sprintf(
-                        _("\tcode: %d"),
-                        intval(
+                // Reset redirection counter
+                $this->redirects = 0;
+
+                print(
+                    Message::magenta(
+                        sprintf(
+                            _("\tcode: %d (success)"),
                             $response->getCode()
                         )
                     )
-                )
-            );
-
-            // Crawl next address...
-            if ($this->option->crawl)
-            {
-                $this->start(
-                    $offset + 1
                 );
-            }
 
-            return; // stop next operations in queue
+            break;
+
+            case 30: // redirection
+            case 31:
+
+                // Increase redirection counter
+                $this->redirects++;
+
+                // Print event debug
+                print(
+                    Message::yellow(
+                        sprintf(
+                            _("\tcode: %d (redirection #%d)"),
+                            $response->getCode(),
+                            $this->redirects
+                        )
+                    )
+                );
+
+                print(
+                    Message::yellow(
+                        sprintf(
+                            _("\tmeta: %s"),
+                            $response->getMeta()
+                        )
+                    )
+                );
+
+                print(
+                    Message::magenta(
+                        sprintf(
+                            _("\ttime: %f -d %f"),
+                            $time,
+                            $this->option->delay + $time
+                        )
+                    )
+                );
+
+                // Crawl next address...
+                if ($this->option->crawl)
+                {
+                    if ($this->redirects <= 5) // @TODO optional (currently protocol spec)
+                    {
+                        // Validate redirection target location
+                        if (filter_var($response->getMeta(), FILTER_VALIDATE_URL)) // @TODO resolve relative locations
+                        {
+                            // Apply redirection target to the current destination
+                            $this->source[$offset] = $response->getMeta();
+
+                            // Rescan current destination using updated location
+                            $this->start(
+                                $offset
+                            );
+                        }
+                        else
+                        {
+                            print(
+                                Message::red(
+                                    sprintf(
+                                        _("\tskip invalid redirection URL: `%s`"),
+                                        $response->getMeta()
+                                    )
+                                )
+                            );
+
+                            // Continue next location
+                            $this->start(
+                                $offset + 1
+                            );
+                        }
+                    }
+                    else
+                    {
+                        print(
+                            Message::red(
+                                sprintf(
+                                    _("\tredirection count reached, continue next address in queue"),
+                                )
+                            )
+                        );
+
+                        // Continue next location
+                        $this->start(
+                            $offset + 1
+                        );
+                    }
+                }
+
+                return; // panic @TODO
+
+            break;
+            default: // failure
+
+                print(
+                    Message::red(
+                        sprintf(
+                            _("\tcode: %d (unsupported)"),
+                            intval(
+                                $response->getCode()
+                            )
+                        )
+                    )
+                );
+
+                // Reset redirection counter
+                $this->redirects = 0;
+
+                // Crawl next address...
+                if ($this->option->crawl)
+                {
+                    $this->start(
+                        $offset + 1
+                    );
+                }
+
+                return; // panic @TODO
         }
 
         // Calculate document size
@@ -218,8 +317,8 @@ class Cli
                     $source
                 );
 
-                // Check link match common source rules, @TODO --external links
-                if (!$this->_source($address->get()) || $address->getHost() != $source->getHost())
+                // Check link match common source rules
+                if (!$this->_source($address->get()))
                 {
                     continue;
                 }

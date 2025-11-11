@@ -40,6 +40,18 @@ class Message
         );
     }
 
+    public static function yellow(
+        string $message,
+        bool $bold = false
+    ): string
+    {
+        return self::plain(
+            $message,
+            $bold ? Color::LIGHT_YELLOW
+                  : Color::YELLOW
+        );
+    }
+
     public static function green(
         string $message
     ): string

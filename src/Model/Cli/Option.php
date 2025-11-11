@@ -110,13 +110,6 @@ class Option
             );
         }
 
-        if (!preg_match($this->match, $this->source))
-        {
-            throw new \Exception(
-                _('--source does not --match condition!')
-            );
-        }
-
         // Validate target
         if (empty($this->target))
         {
