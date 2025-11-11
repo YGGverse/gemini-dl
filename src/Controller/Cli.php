@@ -213,17 +213,27 @@ class Cli
                 {
                     if ($this->redirects <= $this->option->follow)
                     {
+                        // Build new address
+                        $target = new Address(
+                            trim($response->getMeta())
+                        );
+
+                        // Make relative links absolute
+                        $target->toAbsolute(
+                            $source
+                        );
+
                         // Validate redirection target location
-                        if (filter_var($response->getMeta(), FILTER_VALIDATE_URL)) // @TODO resolve relative locations
+                        if (filter_var($target->get(), FILTER_VALIDATE_URL))
                         {
                             // Insert redirection target to the next destination
-                            if (!$this->putSource($offset + 1, trim($response->getMeta())))
+                            if (!$this->putSource($offset + 1, $target->get()))
                             {
                                 print(
                                     Message::red(
                                         sprintf(
                                             _("\tdestination could not be updated due to the conditions or it has already been indexed: `%s`"),
-                                            $response->getMeta()
+                                            $target->get()
                                         )
                                     )
                                 );
@@ -235,7 +245,7 @@ class Cli
                                 Message::red(
                                     sprintf(
                                         _("\tskip invalid redirection URL: `%s`"),
-                                        $response->getMeta()
+                                        $target->get()
                                     )
                                 )
                             );
