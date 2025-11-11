@@ -193,6 +193,21 @@ class Cli
                     )
                 );
 
+                {
+                    $count = count($this->source); // calculate shared value once
+
+                    print(
+                        Message::yellow(
+                            sprintf(
+                                _("\tleft: %d/%d total (%d processed)"),
+                                $count - $offset,
+                                $count,
+                                $offset
+                            )
+                        )
+                    );
+                }
+
                 // Crawl next address...
                 if ($this->option->crawl)
                 {
@@ -308,6 +323,21 @@ class Cli
                 )
             )
         );
+
+        {
+            $count = count($this->source); // calculate shared value once
+
+            print(
+                Message::magenta(
+                    sprintf(
+                        _("\tleft: %d/%d total (%d processed)"),
+                        $count - $offset,
+                        $count,
+                        $offset
+                    )
+                )
+            );
+        }
 
         // Set data mode
         $raw = ($this->option->raw || !str_contains((string) $response->getMeta(), 'text/gemini'));
