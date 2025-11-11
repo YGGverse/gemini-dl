@@ -49,15 +49,32 @@ class Cli
         );
     }
 
-    // Appends valid address to crawler queue
+    // Appends address in crawler queue
     public function addSource(
         string $url
     ): bool
     {
-        // Validate given value and check it is unique in pool
+        // Validate given value and check it is unique in the pool
         if ($this->_source($url) && !in_array($url, $this->source))
         {
             $this->source[] = $url;
+
+            return true;
+        }
+
+        return false;
+    }
+
+    // Updates address in crawler queue
+    public function setSource(
+        int $offset,
+        string $url
+    ): bool
+    {
+        // Validate given value and check it is unique in the pool
+        if (isset($this->source[$offset]) && $this->_source($url) && $this->source[$offset] != $url)
+        {
+            $this->source[$offset] = $url;
 
             return true;
         }
@@ -187,12 +204,29 @@ class Cli
                         if (filter_var($response->getMeta(), FILTER_VALIDATE_URL)) // @TODO resolve relative locations
                         {
                             // Apply redirection target to the current destination
-                            $this->source[$offset] = $response->getMeta();
+                            if ($this->setSource($offset, trim($response->getMeta())))
+                            {
+                                // Rescan current destination using updated location
+                                $this->start(
+                                    $offset
+                                );
+                            }
+                            else
+                            {
+                                print(
+                                    Message::red(
+                                        sprintf(
+                                            _("\tdestination could not be updated due to the conditions or it has already been indexed: `%s`"),
+                                            $response->getMeta()
+                                        )
+                                    )
+                                );
 
-                            // Rescan current destination using updated location
-                            $this->start(
-                                $offset
-                            );
+                                // Continue next location
+                                $this->start(
+                                    $offset + 1
+                                );
+                            }
                         }
                         else
                         {
